@@ -1,7 +1,7 @@
 <?php
 namespace PMVC\PlugIn\cmd;
 
-\PMVC\l(__DIR__.'/class.cmd.php');
+\PMVC\l(__DIR__.'/src/class.cmd.php');
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cmd';
 
