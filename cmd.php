@@ -1,25 +1,27 @@
 <?php
-namespace PMVC\PlugIns;
+namespace PMVC\PlugIn\cmd;
 
 \PMVC\l(__DIR__.'/class.cmd.php');
 
-${_INIT_CONFIG}[_CLASS] = 'PMVC\PlugIns\PMVC_PLUGIN_cmd';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cmd';
 
-class PMVC_PLUGIN_cmd extends \PMVC\PLUGIN
+class cmd extends \PMVC\PlugIn
 {
     private $cmd;
-    function init(){
-        $this->cmd = new \cmd(); 
+    public function init()
+    {
+        $this->cmd = new \cmd();
     }
 
-    function args($args){
+    public function args($args)
+    {
         // return array('commands'=>array(),'input'=>array());
         return $this->cmd->arguments($args);
     }
 
-    function commands($args){
+    public function commands($args)
+    {
         $arr=$this->cmd->arguments($args);
         return $arr['commands'];
     }
 }
-?>
