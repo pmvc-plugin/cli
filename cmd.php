@@ -1,7 +1,7 @@
 <?php
 namespace PMVC\PlugIn\cmd;
 
-\PMVC\l(__DIR__.'/src/class.cmd.php');
+\PMVC\l(__DIR__.'/src/CmdParser.php');
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cmd';
 
@@ -12,7 +12,7 @@ class cmd extends \PMVC\PlugIn
 
     public function init()
     {
-        $this->cmd = new \cmd();
+        $this->cmd = new CmdParser();
         $argv = $GLOBALS['argv'];
         if(!empty($argv)){
             $this->args = $this->commands($argv);
@@ -32,7 +32,6 @@ class cmd extends \PMVC\PlugIn
 
     public function commands($args=array())
     {
-        $arr=$this->cmd->arguments($args);
-        return $arr['commands'];
+        return $this->args($args)['commands'];
     }
 }

@@ -1,14 +1,14 @@
 <?php
-class cmd
+namespace PMVC\PlugIn\cmd;
+
+class CmdParser
 {
     public function arguments($args)
     {
         array_shift($args);
-        $args = join($args, ' ');
-
-        preg_match_all('/ (--\w+ (?:[= ] [^-]+ [^\s-] )? ) | (-\w+) | (\w+) /x', $args, $match);
+        $args = join($args, ' '). ' ';
+        preg_match_all('/ (--\w+ (?:[= ] [^-]+ [^-] )? ) | (-\w+) | (\w+) /x', $args, $match);
         $args = array_shift($match);
-
         /*
            Array
            (
@@ -24,9 +24,9 @@ class cmd
          */
 
         $ret = array(
-                'input'    => array(),
-                'commands' => array(),
-                );
+            'input'    => array(),
+            'commands' => array(),
+        );
 
         foreach ($args as $arg) {
             $parse = $this->parse_key($arg, 2);
@@ -49,7 +49,7 @@ class cmd
             $value = join($value);
             return array(
                     'key'=>$com
-                    ,'value'=>!empty($value) ? $value : true
+                    ,'value'=> trim($value) ?: true
                     );
         } else {
             return false;
