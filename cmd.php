@@ -1,37 +1,60 @@
 <?php
 namespace PMVC\PlugIn\cmd;
-
-\PMVC\l(__DIR__.'/src/CmdParser.php');
-
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cmd';
 
 class cmd extends \PMVC\PlugIn
 {
-    private $cmd;
-    private $args;
-
-    public function init()
+    public function onMapRequest()
     {
-        $this->cmd = new CmdParser();
+        $controller = \PMVC\getC();
         $argv = $GLOBALS['argv'];
-        if(!empty($argv)){
-            $this->args = $this->commands($argv);
+        if (empty($argv[1])) {
+            return null;
+        }
+        $param1 = explode(':',$argv[1]);
+        if (!empty($param1[0])) {
+            $controller->setApp($param1[0]);
+        }
+        if (!empty($param1[1])) {
+            $controller->setAppAction($param1[1]);
+        } else {
+            $controller->setAppAction($param1[0]);
         }
     }
 
-    public function get($k=null,$default=null)
+    public function onSetConfig()
     {
-        return \PMVC\get($this->args,$k,$default);
+        if (!\PMVC\plug('dispatcher')->isSetOption(_SCOPE)) {
+            return;
+        }
+        $scope = \PMVC\getOption(_SCOPE);
+        if (!is_array($scope->scope)) {
+            return;
+        }
+        $params = getopt('',$scope->scope);
+        $controller = \PMVC\getC();
+        $request = $controller->getRequest();
+        \PMVC\set($request, $params);
+        $scope->scope = null;
+    }
+    public function init()
+    {
+        \PMVC\call_plugin(
+            'dispatcher',
+            'attach',
+            array(
+                $this,
+                \PMVC\Event\MAP_REQUEST
+            )
+        );
+        \PMVC\call_plugin(
+            'dispatcher',
+            'attach',
+            array(
+                $this,
+                'SetConfig'
+            )
+        );
     }
 
-    public function args($args=array())
-    {
-        // return array('commands'=>array(),'input'=>array());
-        return $this->cmd->arguments($args);
-    }
-
-    public function commands($args=array())
-    {
-        return $this->args($args)['commands'];
-    }
 }
