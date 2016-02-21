@@ -3,7 +3,9 @@ namespace PMVC\PlugIn\cmd;
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cmd';
 \PMVC\l(__DIR__.'/src/Color2.php');
 
-class cmd extends \PMVC\PlugIn
+class cmd
+    extends \PMVC\PlugIn
+    implements \PMVC\RouterInterface
 {
     private $_color;
     public function onMapRequest()
@@ -69,5 +71,17 @@ class cmd extends \PMVC\PlugIn
     public function dump($text,$color="%m")
     {
         echo $this->color($color,$text)."\n";
+    }
+
+    public function buildCommand($path, $params)
+    {
+    }
+
+    public function processHeader($headers)
+    {
+    }
+    
+    public function go($path)
+    {
     }
 }

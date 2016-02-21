@@ -1,5 +1,5 @@
 <?php
-PMVC\Load::plug();
+PMVC\Load::mvc();
 PMVC\addPlugInFolder('../');
 class CmdTest extends PHPUnit_Framework_TestCase
 {
