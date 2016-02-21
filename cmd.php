@@ -1,9 +1,11 @@
 <?php
 namespace PMVC\PlugIn\cmd;
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cmd';
+\PMVC\l(__DIR__.'/src/Color2.php');
 
 class cmd extends \PMVC\PlugIn
 {
+    private $_color;
     public function onMapRequest()
     {
         $controller = \PMVC\getC();
@@ -55,6 +57,17 @@ class cmd extends \PMVC\PlugIn
                 'SetConfig'
             )
         );
+        $this->_color = new \Console_Color2();
     }
 
+    public function color($color,$text)
+    {
+        $text = $this->_color->escape($text);
+        return $this->_color->convert($color.$text.'%n');
+    }
+
+    public function dump($text,$color="%m")
+    {
+        echo $this->color($color,$text)."\n";
+    }
 }
