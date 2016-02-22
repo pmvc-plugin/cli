@@ -64,6 +64,9 @@ class cmd
 
     public function color($color,$text)
     {
+        if (is_array($text) || is_object($text)) {
+            $text = var_export($text,true);
+        }
         $text = $this->_color->escape($text);
         return $this->_color->convert($color.$text.'%n');
     }
