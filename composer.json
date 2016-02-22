@@ -1,9 +1,8 @@
 {
-    "name": "pmvc-plugin/cmd",
-    "description": "easy parse command line parameter",
+    "name": "pmvc-plugin/cli",
+    "description": "PMVC command line router",
     "type": "library",
-    "homepage": "https://github.com/pmvc-plugin/cmd",
-    "keywords": ["command line", "pmvc", "plug-in"],
+    "keywords": ["cli", "pmvc", "plug-in"],
     "license": "MIT",
     "authors": [
         {
