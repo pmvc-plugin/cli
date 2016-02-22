@@ -1,9 +1,9 @@
 <?php
 PMVC\Load::mvc();
 PMVC\addPlugInFolder('../');
-class CmdTest extends PHPUnit_Framework_TestCase
+class CliTest extends PHPUnit_Framework_TestCase
 {
-    private $_plug = 'cmd';
+    private $_plug = 'cli';
     function testPlugin()
     {
         ob_start();
