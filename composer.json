@@ -11,7 +11,8 @@
         }
     ],
     "require": {
-        "pmvc/pmvc": "*"
+        "pmvc/pmvc": "*",
+        "wp-cli/php-cli-tools": "*"
     },
     "minimum-stability": "dev"
 }
