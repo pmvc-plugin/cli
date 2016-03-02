@@ -1,9 +1,11 @@
 <?php
-namespace PMVC\PlugIn\cmd;
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cmd';
+namespace PMVC\PlugIn\cli;
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cli';
 \PMVC\l(__DIR__.'/src/Color2.php');
 
-class cmd
+const PLUGIN='cli';
+
+class cli
     extends \PMVC\PlugIn
     implements \PMVC\RouterInterface
 {
@@ -15,15 +17,10 @@ class cmd
         if (empty($argv[1])) {
             return null;
         }
-        $param1 = explode(':',$argv[1]);
-        if (!empty($param1[0])) {
-            $controller->setApp($param1[0]);
-        }
-        if (!empty($param1[1])) {
-            $controller->setAppAction($param1[1]);
-        } else {
-            $controller->setAppAction($param1[0]);
-        }
+        $param1 = str_replace('--','',$argv[1]);
+        $param2 = getopt('',[$param1.':']);
+        $controller->setApp($param1);
+        $controller->setAppAction($param2[$param1]);
     }
 
     public function onSetConfig()
@@ -35,8 +32,9 @@ class cmd
         if (!is_array($scope->scope)) {
             return;
         }
-        $params = getopt('',$scope->scope);
         $controller = \PMVC\getC();
+        $scope->scope[] = $controller->getApp().':';
+        $params = getopt('',$scope->scope);
         $request = $controller->getRequest();
         \PMVC\set($request, $params);
         $scope->scope = null;
@@ -59,7 +57,7 @@ class cmd
                 'SetConfig'
             )
         );
-        $this->_color = new \Console_Color2();
+        $this->_color = new Console_Color2();
     }
 
     public function color($color,$text)

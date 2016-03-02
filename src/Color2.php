@@ -1,4 +1,5 @@
 <?php
+namespace PMVC\PlugIn\cli;
 /**
  * Color.php
  *
