@@ -20,7 +20,9 @@ class cli
         $param1 = str_replace('--','',$argv[1]);
         $param2 = getopt('',[$param1.':']);
         $controller->setApp($param1);
-        $controller->setAppAction($param2[$param1]);
+        if (isset($param2[$param1])) {
+            $controller->setAppAction($param2[$param1]);
+        }
     }
 
     public function onSetConfig()
