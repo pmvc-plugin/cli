@@ -13,34 +13,26 @@ class cli
     public function onMapRequest()
     {
         $controller = \PMVC\getC();
-        $argv = $GLOBALS['argv'];
-        if (empty($argv[1])) {
-            return null;
+        $opts = $this->getopt();
+        if (empty($opts[1])) {
+            return;
+        }else{
+            $app = explode(':',$opts[1]);
         }
-        $param1 = str_replace('--','',$argv[1]);
-        $param2 = getopt('',[$param1.':']);
-        $controller->setApp($param1);
-        if (isset($param2[$param1])) {
-            $controller->setAppAction($param2[$param1]);
+        $request = $controller->getRequest();
+        foreach($opts as $k=>$v){
+            if (!is_numeric($k)) {
+                $request[$k] = $v; 
+            }
+        }
+        if (isset($app[0])) {
+            $controller->setApp($app[0]);
+        }
+        if (isset($app[1])) {
+            $controller->setAppAction($app[1]);
         }
     }
 
-    public function onSetConfig()
-    {
-        if (!\PMVC\plug('dispatcher')->isSetOption(_SCOPE)) {
-            return;
-        }
-        $scope = \PMVC\getOption(_SCOPE);
-        if (!is_array($scope->scope)) {
-            return;
-        }
-        $controller = \PMVC\getC();
-        $scope->scope[] = $controller->getApp().':';
-        $params = getopt('',$scope->scope);
-        $request = $controller->getRequest();
-        \PMVC\set($request, $params);
-        $scope->scope = null;
-    }
     public function init()
     {
         \PMVC\call_plugin(
