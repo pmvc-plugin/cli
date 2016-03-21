@@ -9,7 +9,7 @@ class getopt
 
     function __invoke($noopt = array()) {
         if (empty($this->_opts)) {
-            $this->_opts = $this->parse($noopt);
+            $this->_opts = $this->parse($GLOBALS['argv'], $noopt);
         }
         return $this->_opts;
     }
@@ -27,16 +27,15 @@ class getopt
  *
  * @param array $noopt List of parameters without values
  */
-    function parse($noopt = array()) {
+    function parse($params, $noopt = array()) {
         $result = array();
-        $params = $GLOBALS['argv'];
         // could use getopt() here (since PHP 5.3.0), but it doesn't work relyingly
         reset($params);
         while (list($tmp, $p) = each($params)) {
-            if ($p{0} == '-') {
+            if ($p{0} === '-') {
                 $pname = substr($p, 1);
                 $value = true;
-                if ($pname{0} == '-') {
+                if ($pname{0} === '-') {
                     // long-opt (--<param>)
                     $pname = substr($pname, 1);
                     if (strpos($p, '=') !== false) {
@@ -49,7 +48,7 @@ class getopt
                 if (!in_array($pname, $noopt) && $value === true && $nextparm !== false && $nextparm{0} != '-') {
                     list($tmp, $value) = each($params);
                 }
-                if (true===$value && 
+                if (true === $value && 
                     '--' !== substr($p,0,2) &&
                     strlen($p) >= 3
                 ) {

@@ -5,6 +5,10 @@ ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cli';
 
 const PLUGIN='cli';
 
+readline_completion_function(function(){
+    \PMVC\plug('yo_swagger')->getSpec();
+});
+
 class cli
     extends \PMVC\PlugIn
     implements \PMVC\RouterInterface
@@ -15,7 +19,7 @@ class cli
         $controller = \PMVC\getC();
         $opts = $this->getopt();
         if (empty($opts[1])) {
-            return;
+            $stdInput = readline('[PMVC]$ ');
         }else{
             $app = explode(':',$opts[1]);
         }
