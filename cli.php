@@ -2,6 +2,7 @@
 namespace PMVC\PlugIn\cli;
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cli';
 \PMVC\l(__DIR__.'/src/Color2.php');
+\PMVC\initPlugIn(['controller'=>null]);
 
 const PLUGIN='cli';
 
@@ -12,7 +13,7 @@ class cli
     private $_color;
     public function onMapRequest()
     {
-        $controller = \PMVC\getC();
+        $controller = \PMVC\plug('controller');
         $opts = $this->getopt();
         if (empty($opts[1])) {
             return;

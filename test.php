@@ -1,5 +1,5 @@
 <?php
-PMVC\Load::mvc();
+PMVC\Load::plug();
 PMVC\addPlugInFolder('../');
 class CliTest extends PHPUnit_Framework_TestCase
 {
