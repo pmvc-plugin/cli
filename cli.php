@@ -24,6 +24,8 @@ class cli
         foreach($opts as $k=>$v){
             if (!is_numeric($k)) {
                 $request[$k] = $v; 
+            } elseif ($k>1) {
+                $request[] = $v;
             }
         }
         if (isset($app[0])) {
