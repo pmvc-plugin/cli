@@ -57,7 +57,11 @@ class Markdown extends \cli\tree\Renderer
             $content = null;
             if (!is_array($next))
             {
-                $content = ': '.$next;
+                if (is_object($next) && !method_exists($next,'__string')) {
+                    $content = ': '.get_class($next);
+                } else {
+                    $content = ': '.$next;
+                }
             }
             $color = (!$level) ?  $this->_color : '%_';
             $label = $cli->color($color, $label); 
