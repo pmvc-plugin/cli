@@ -15,11 +15,6 @@ class cli
     {
         $controller = \PMVC\plug('controller');
         $opts = $this->getopt();
-        if (empty($opts[1])) {
-            return;
-        }else{
-            $app = explode(':',$opts[1]);
-        }
         $request = $controller->getRequest();
         foreach($opts as $k=>$v){
             if (!is_numeric($k)) {
@@ -27,6 +22,11 @@ class cli
             } elseif ($k>1) {
                 $request[] = $v;
             }
+        }
+        if (empty($opts[1])) {
+            return;
+        }else{
+            $app = explode(':',$opts[1]);
         }
         if (isset($app[0])) {
             $controller->setApp($app[0]);
