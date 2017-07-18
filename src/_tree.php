@@ -1,11 +1,19 @@
 <?php
-namespace PMVC\PlugIn\cli;
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\tree';
 
-class tree 
+namespace PMVC\PlugIn\cli;
+
+// https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/tree/Renderer.php
+use cli\tree\Renderer;
+// https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/Tree.php
+use cli\Tree;
+
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\MyTree';
+
+class MyTree 
 {
-    private $_clitree;
-    function __invoke($data,$color=null)
+    private $_cliTree;
+
+    public function __invoke($data,$color=null)
     {
         $tree = $this->getInstance();
         $tree->setData($data);
@@ -13,16 +21,16 @@ class tree
         $tree->display();
     }
 
-    function getInstance()
+    public function getInstance()
     {
-       if (empty($this->_clitree)) {
-            $this->_clitree = new \cli\Tree;
+       if (empty($this->_cliTree)) {
+            $this->_cliTree = new Tree();
        }
-       return $this->_clitree;
+       return $this->_cliTree;
     }
 }
 
-class Markdown extends \cli\tree\Renderer 
+class Markdown extends Renderer 
 {
 
     /**
