@@ -1,16 +1,20 @@
 <?php
+
 namespace PMVC\PlugIn\cli;
+
+use PMVC\NamespaceAdapter;
+
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cli';
+
 \PMVC\l(__DIR__.'/src/Color2.php');
 \PMVC\initPlugIn(['controller'=>null]);
-
-const PLUGIN='cli';
 
 class cli
     extends \PMVC\PlugIn
     implements \PMVC\RouterInterface
 {
     private $_color;
+
     public function onMapRequest()
     {
         $controller = \PMVC\plug('controller');
@@ -46,15 +50,8 @@ class cli
                 \PMVC\Event\MAP_REQUEST
             )
         );
-        \PMVC\callPlugin(
-            'dispatcher',
-            'attach',
-            array(
-                $this,
-                'SetConfig'
-            )
-        );
         $this->_color = new Console_Color2();
+        $this->setDefaultAlias(new NamespaceAdapter('cli'));
     }
 
     public function color($color,$text)
@@ -71,15 +68,8 @@ class cli
         echo $this->color($color,$text)."\n";
     }
 
-    public function buildCommand($path, $params)
-    {
-    }
-
-    public function processHeader($headers)
-    {
-    }
-    
-    public function go($path)
-    {
-    }
+    // abstract function
+    public function buildCommand($path, $params) { }
+    public function processHeader($headers) { }
+    public function go($path) { }
 }

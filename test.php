@@ -12,4 +12,15 @@ class CliTest extends PHPUnit_Framework_TestCase
         ob_end_clean();
         $this->assertContains($this->_plug,$output);
     }
+
+    public function testLine()
+    {
+        ob_start();
+        $cli = \PMVC\plug('cli');
+        $cli->line();
+        $output = trim(ob_get_contents());
+        ob_end_clean();
+        $expected = "[4m[1;37m--------------------------------------------------------------------------------[0m";
+        $this->assertEquals($expected, $output);
+    }
 }
