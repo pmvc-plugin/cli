@@ -2,6 +2,7 @@
 
 namespace PMVC\PlugIn\cli;
 
+use stdClass;
 // https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/tree/Renderer.php
 use cli\tree\Renderer;
 // https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/Tree.php
@@ -63,6 +64,9 @@ class Markdown extends Renderer
         foreach ($tree as $label => $next)
         {
             $content = null;
+            if (is_object($next) && $next instanceof stdClass) {
+                $next = (array)$next;
+            }
             if (!is_array($next))
             {
                 if (is_object($next) && !method_exists($next,'__string')) {
