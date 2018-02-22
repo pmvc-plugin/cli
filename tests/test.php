@@ -1,6 +1,10 @@
 <?php
-PMVC\Load::plug();
-PMVC\addPlugInFolders(['../']);
+
+namespace PMVC\PlugIn\cli;
+
+use PMVC;
+use PHPUnit_Framework_TestCase;
+
 class CliTest extends PHPUnit_Framework_TestCase
 {
     private $_plug = 'cli';

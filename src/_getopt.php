@@ -7,9 +7,12 @@ class getopt
 
     private $_opts;
 
-    function __invoke($noopt = array()) {
+    function __invoke(array $args=[]) {
         if (empty($this->_opts)) {
-            $this->_opts = $this->parse($GLOBALS['argv'], $noopt);
+            if (empty($args)) {
+                $args = \PMVC\get($_SERVER, 'argv');
+            }
+            $this->_opts = $this->parse($args);
         }
         return $this->_opts;
     }
@@ -25,13 +28,16 @@ class getopt
  * --long-param <value>
  * <value>
  *
- * @param array $noopt List of parameters without values
  */
-    function parse($params, $noopt = array()) {
-        $result = array();
+    function parse($params) {
+        $result = [];
         // could use getopt() here (since PHP 5.3.0), but it doesn't work relyingly
-        reset($params);
-        while (list($tmp, $p) = each($params)) {
+        $ignoreOnce = false;
+        foreach ($params as $index=>$p) {
+            if ($ignoreOnce) {
+                $ignoreOnce = false;
+                continue;
+            }
             if ($p{0} === '-') {
                 $pname = substr($p, 1);
                 $value = true;
@@ -44,9 +50,10 @@ class getopt
                     }
                 }
                 // check if next parameter is a descriptor or a value
-                $nextparm = current($params);
-                if (!in_array($pname, $noopt) && $value === true && $nextparm !== false && $nextparm{0} != '-') {
-                    list($tmp, $value) = each($params);
+                $nextparm = \PMVC\get($params, $index+1, false);
+                if ($value === true && $nextparm !== false && $nextparm{0} != '-') {
+                    $ignoreOnce = true;
+                    $value = $nextparm;
                 }
                 if (true === $value && 
                     '--' !== substr($p,0,2) &&
