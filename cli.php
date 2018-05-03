@@ -71,5 +71,5 @@ class cli
     // abstract function
     public function buildCommand($path, $params) { }
     public function processHeader(array $headers) { }
-    public function go($path) { }
+    public function go($path, $isClientLocation = false) { }
 }
