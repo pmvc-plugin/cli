@@ -5,6 +5,8 @@ namespace PMVC\PlugIn\cli;
 use stdClass;
 // https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/tree/Renderer.php
 use cli\tree\Renderer;
+// https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/Tree.php
+use cli\Tree as CliTree;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\MyTree';
 
@@ -93,4 +95,28 @@ class Markdown extends Renderer
         return $output;
     }
 
+}
+
+class Tree extends CliTree
+{
+    private $_err = false;
+    protected $errStream = STDERR;
+
+    public function setStdErr($bool)
+    {
+        $this->_err = $bool; 
+    }
+
+    /**
+     * Display the rendered tree
+     */
+    public function display()
+    {
+        if ($this->_err) {
+            fwrite($this->errStream, $this->render());
+            $this->setStdErr(false);
+        } else {
+            echo $this->render();
+        }
+    }
 }
