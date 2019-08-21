@@ -5,29 +5,30 @@ namespace PMVC\PlugIn\cli;
 use stdClass;
 // https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/tree/Renderer.php
 use cli\tree\Renderer;
-// https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/Tree.php
-use cli\Tree;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\MyTree';
 
 class MyTree 
 {
-    private $_cliTree;
+    private static $_cliTree;
 
-    public function __invoke($data,$color=null)
+    public function __invoke($data, $color=null, $stderr=null)
     {
-        $tree = $this->getInstance();
+        $tree = self::getInstance();
+        if ($stderr) {
+          $tree->setStdErr(true);
+        }
         $tree->setData($data);
         $tree->setRenderer(new Markdown(4,$color));
         $tree->display();
     }
 
-    public function getInstance()
+    public static function getInstance()
     {
-       if (empty($this->_cliTree)) {
-            $this->_cliTree = new Tree();
+       if (empty(self::$_cliTree)) {
+            self::$_cliTree = new Tree();
        }
-       return $this->_cliTree;
+       return self::$_cliTree;
     }
 }
 

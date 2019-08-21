@@ -7,6 +7,7 @@ use PMVC\NamespaceAdapter;
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\cli';
 
 \PMVC\l(__DIR__.'/src/Color2.php');
+\PMVC\l(__DIR__.'/src/Tree.php');
 \PMVC\initPlugIn(['controller'=>null]);
 
 class cli
