@@ -38,10 +38,10 @@ class getopt
                 $ignoreOnce = false;
                 continue;
             }
-            if ($p{0} === '-') {
+            if ($p[0] === '-') {
                 $pname = substr($p, 1);
                 $value = true;
-                if ($pname{0} === '-') {
+                if ($pname[0] === '-') {
                     // long-opt (--<param>)
                     $pname = substr($pname, 1);
                     if (strpos($p, '=') !== false) {
@@ -51,7 +51,7 @@ class getopt
                 }
                 // check if next parameter is a descriptor or a value
                 $nextparm = \PMVC\get($params, $index+1, false);
-                if ($value === true && $nextparm !== false && $nextparm{0} != '-') {
+                if ($value === true && $nextparm !== false && $nextparm[0]!= '-') {
                     $ignoreOnce = true;
                     $value = $nextparm;
                 }

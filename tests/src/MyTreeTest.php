@@ -18,9 +18,9 @@ class MyTreeTest extends PHPUnit_Framework_TestCase
         $p->tree(['a', 'b', 'c']);
         $output = ob_get_contents();
         ob_end_clean();
-        $this->assertContains('a',$output);
-        $this->assertContains('b',$output);
-        $this->assertContains('c',$output);
+        $this->assertStringContainsString('a',$output);
+        $this->assertStringContainsString('b',$output);
+        $this->assertStringContainsString('c',$output);
    }
 
    public function testStdErrCall()
@@ -34,8 +34,8 @@ class MyTreeTest extends PHPUnit_Framework_TestCase
         $p->tree(['a', 'b', 'c'], null, true);
         fseek($stream, 0);
         $output = stream_get_contents($stream);
-        $this->assertContains('a',$output);
-        $this->assertContains('b',$output);
-        $this->assertContains('c',$output);
+        $this->assertStringContainsString('a',$output);
+        $this->assertStringContainsString('b',$output);
+        $this->assertStringContainsString('c',$output);
    }
 }

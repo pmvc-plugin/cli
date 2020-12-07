@@ -10,7 +10,7 @@ class GetOptTest extends PHPUnit_Framework_TestCase
 {
    private $_plug = 'cli';
 
-   public function setup()
+   protected function setup(): void
    {
         PMVC\unplug($this->_plug);
    }
