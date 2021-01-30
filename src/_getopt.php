@@ -38,7 +38,7 @@ class getopt
                 $ignoreOnce = false;
                 continue;
             }
-            if ($p{0} === '-') {
+            if ($p{0} === '-' && strlen($p) > 1) {
                 $pname = substr($p, 1);
                 $value = true;
                 if ($pname{0} === '-') {
