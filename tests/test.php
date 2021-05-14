@@ -3,9 +3,9 @@
 namespace PMVC\PlugIn\cli;
 
 use PMVC;
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 
-class CliTest extends PHPUnit_Framework_TestCase
+class CliTest extends TestCase
 {
     private $_plug = 'cli';
     function testPlugin()
@@ -14,7 +14,7 @@ class CliTest extends PHPUnit_Framework_TestCase
         print_r(PMVC\plug($this->_plug));
         $output = ob_get_contents();
         ob_end_clean();
-        $this->assertStringContainsString($this->_plug,$output);
+        $this->haveString($this->_plug,$output);
     }
 
     public function testLine()

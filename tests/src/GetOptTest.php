@@ -3,14 +3,14 @@
 namespace PMVC\PlugIn\cli;
 
 use PMVC;
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 
 
-class GetOptTest extends PHPUnit_Framework_TestCase
+class GetOptTest extends TestCase
 {
    private $_plug = 'cli';
 
-   protected function setup(): void
+   protected function pmvc_setup()
    {
         PMVC\unplug($this->_plug);
    }

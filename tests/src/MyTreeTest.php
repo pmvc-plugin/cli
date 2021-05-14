@@ -3,11 +3,11 @@
 namespace PMVC\PlugIn\cli;
 
 use PMVC;
-use PHPUnit_Framework_TestCase;
+use PMVC\TestCase;
 use ReflectionProperty;
 
 
-class MyTreeTest extends PHPUnit_Framework_TestCase
+class MyTreeTest extends TestCase
 {
    private $_plug = 'cli';
    public function testSimpleCallTree()
@@ -18,9 +18,9 @@ class MyTreeTest extends PHPUnit_Framework_TestCase
         $p->tree(['a', 'b', 'c']);
         $output = ob_get_contents();
         ob_end_clean();
-        $this->assertStringContainsString('a',$output);
-        $this->assertStringContainsString('b',$output);
-        $this->assertStringContainsString('c',$output);
+        $this->haveString('a',$output);
+        $this->haveString('b',$output);
+        $this->haveString('c',$output);
    }
 
    public function testStdErrCall()
@@ -34,8 +34,8 @@ class MyTreeTest extends PHPUnit_Framework_TestCase
         $p->tree(['a', 'b', 'c'], null, true);
         fseek($stream, 0);
         $output = stream_get_contents($stream);
-        $this->assertStringContainsString('a',$output);
-        $this->assertStringContainsString('b',$output);
-        $this->assertStringContainsString('c',$output);
+        $this->haveString('a',$output);
+        $this->haveString('b',$output);
+        $this->haveString('c',$output);
    }
 }
