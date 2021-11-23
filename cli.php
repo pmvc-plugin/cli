@@ -6,7 +6,7 @@ use PMVC\NamespaceAdapter;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\cli';
 
-\PMVC\l(__DIR__ . '/src/Color2.php');
+\PMVC\l(__DIR__ . '/src/ConsoleColor2');
 \PMVC\initPlugIn(['controller' => null]);
 
 class cli extends \PMVC\PlugIn implements \PMVC\RouterInterface
@@ -55,14 +55,14 @@ class cli extends \PMVC\PlugIn implements \PMVC\RouterInterface
             $this,
             \PMVC\Event\MAP_REQUEST,
         ]);
-        $this->_color = new Console_Color2();
+        $this->_color = new ConsoleColor2();
         $this->setDefaultAlias(new NamespaceAdapter('cli'));
     }
 
     public function color($color, $text)
     {
         if (is_array($text) || is_object($text)) {
-            $text = var_export($text, true);
+            $text = print_r($text, true);
         }
         $text = $this->_color->escape($text);
         return $this->_color->convert($color . $text . '%n');
@@ -71,6 +71,11 @@ class cli extends \PMVC\PlugIn implements \PMVC\RouterInterface
     public function dump($text, $color = '%m')
     {
         echo $this->color($color, $text) . "\n";
+    }
+
+    public function stderr($str, $stream = STDERR)
+    {
+        fwrite($stream, $str);
     }
 
     // abstract function

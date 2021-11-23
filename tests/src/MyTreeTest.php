@@ -23,19 +23,4 @@ class MyTreeTest extends TestCase
         $this->haveString('c',$output);
    }
 
-   public function testStdErrCall()
-   {
-        $p = PMVC\plug($this->_plug);
-        $oTree = MyTree::getInstance();
-        $streamProp = new ReflectionProperty($oTree, 'errStream');
-        $stream = fopen('php://memory', 'rw');
-        $streamProp->setAccessible(true);
-        $streamProp->setValue($oTree, $stream);
-        $p->tree(['a', 'b', 'c'], null, true);
-        fseek($stream, 0);
-        $output = stream_get_contents($stream);
-        $this->haveString('a',$output);
-        $this->haveString('b',$output);
-        $this->haveString('c',$output);
-   }
 }

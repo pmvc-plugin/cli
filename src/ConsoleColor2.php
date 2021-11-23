@@ -47,7 +47,7 @@ namespace PMVC\PlugIn\cli;
  * @license  http://www.opensource.org/licenses/mit-license.php MIT License
  * @link     http://pear.php.net/package/Console_Color
  */
-class Console_Color2
+class ConsoleColor2
 {
 
     protected $color_codes;

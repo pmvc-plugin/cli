@@ -8,35 +8,40 @@ use cli\tree\Renderer;
 // https://github.com/wp-cli/php-cli-tools/blob/master/lib/cli/Tree.php
 use cli\Tree as CliTree;
 
-${_INIT_CONFIG}[_CLASS] = __NAMESPACE__.'\MyTree';
+${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\MyTree';
 
-class MyTree 
+class MyTree
 {
     private static $_cliTree;
 
-    public function __invoke($data, $color=null, $stderr=null)
+    public function __invoke($data, $color = null, $stderr = null)
     {
         $tree = self::getInstance();
         if ($stderr) {
-          $tree->setStdErr(true);
+            $tree->setStdErr(true);
         }
         $tree->setData($data);
-        $tree->setRenderer(new Markdown(4,$color));
+        $tree->setRenderer(new Markdown(4, $color));
         $tree->display();
     }
 
     public static function getInstance()
     {
-       if (empty(self::$_cliTree)) {
+        if (empty(self::$_cliTree)) {
             self::$_cliTree = new Tree();
-       }
-       return self::$_cliTree;
+        }
+        return self::$_cliTree;
     }
 }
 
-class Markdown extends Renderer 
-{
 
+/**
+ * CLI Render
+ *
+ * @see cli\tree\Renderer
+ */
+class Markdown extends Renderer
+{
     /**
      * How many spaces to indent by
      * @var int
@@ -47,7 +52,7 @@ class Markdown extends Renderer
     /**
      * @param int $padding Optional. Default 2.
      */
-    function __construct($padding = 2, $color=null)
+    function __construct($padding = 2, $color = null)
     {
         $this->_padding = $padding;
         $this->_color = $color;
@@ -64,47 +69,46 @@ class Markdown extends Renderer
     {
         $output = '';
         $cli = \PMVC\plug('cli');
-        foreach ($tree as $label => $next)
-        {
+        foreach ($tree as $label => $next) {
             $content = null;
             if (is_object($next) && $next instanceof stdClass) {
-                $next = (array)$next;
+                $next = (array) $next;
             }
-            if (!is_array($next))
-            {
-                if (is_object($next) && !method_exists($next,'__string')) {
-                    $content = ': '.get_class($next);
+            if (!is_array($next)) {
+                if (is_object($next) && !method_exists($next, '__string')) {
+                    $content = ': ' . get_class($next);
                 } else {
-                    $content = ': '.var_export($next,true);
+                    $content = ': ' . var_export($next, true);
                 }
             }
-            $color = (!$level) ?  $this->_color : '%_';
-            $label = $cli->color($color, $label); 
+            $color = !$level ? $this->_color : '%_';
+            $label = $cli->color($color, $label);
 
             // Output the label
-            $output .= sprintf("%s- %s%s\n", str_repeat(' ', $level * $this->_padding), $label, $content);
+            $output .= sprintf(
+                "%s- %s%s\n",
+                str_repeat(' ', $level * $this->_padding),
+                $label,
+                $content
+            );
 
             // Next level
-            if (is_array($next))
-            {
+            if (is_array($next)) {
                 $output .= $this->render($next, $level + 1);
             }
-
         }
 
         return $output;
     }
-
 }
 
 class Tree extends CliTree
 {
     private $_err = false;
-    protected $errStream = STDERR;
 
     public function setStdErr($bool)
     {
-        $this->_err = $bool; 
+        $this->_err = $bool;
     }
 
     /**
@@ -113,7 +117,7 @@ class Tree extends CliTree
     public function display()
     {
         if ($this->_err) {
-            fwrite($this->errStream, $this->render());
+            \PMVC\plug('cli')->stderr($this->render());
             $this->setStdErr(false);
         } else {
             echo $this->render();

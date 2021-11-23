@@ -27,4 +27,15 @@ class CliTest extends TestCase
         $expected = "[4m[1;37m--------------------------------------------------------------------------------[0m";
         $this->assertEquals($expected, $output);
     }
+
+    public function testStderr()
+    {
+        $expected = 'foo';
+        $p = PMVC\plug($this->_plug);
+        $stream = fopen('php://memory', 'rw');
+        $p->stderr($expected, $stream);
+        fseek($stream, 0);
+        $actual = stream_get_contents($stream);
+        $this->assertEquals($expected, $actual);
+    }
 }

@@ -1,10 +1,10 @@
 [![Latest Stable Version](https://poser.pugx.org/pmvc-plugin/cli/v/stable)](https://packagist.org/packages/pmvc-plugin/cli) 
 [![Latest Unstable Version](https://poser.pugx.org/pmvc-plugin/cli/v/unstable)](https://packagist.org/packages/pmvc-plugin/cli) 
-[![Build Status](https://travis-ci.org/pmvc-plugin/cli.svg?branch=master)](https://travis-ci.org/pmvc-plugin/cli)
+[![CircleCI](https://circleci.com/gh/pmvc-plugin/cli/tree/master.svg?style=svg)](https://circleci.com/gh/pmvc-plugin/cli/tree/master)
 [![License](https://poser.pugx.org/pmvc-plugin/cli/license)](https://packagist.org/packages/pmvc-plugin/cli)
 [![Total Downloads](https://poser.pugx.org/pmvc-plugin/cli/downloads)](https://packagist.org/packages/pmvc-plugin/cli) 
 
-# PMVC Command Line plugin 
+PMVC Command Line plugin 
 ===============
 
 ## Install with Composer
