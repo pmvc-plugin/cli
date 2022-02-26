@@ -7,7 +7,7 @@ use PMVC\NamespaceAdapter;
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\cli';
 
 \PMVC\l(__DIR__ . '/src/ConsoleColor2');
-\PMVC\initPlugIn(['controller' => null]);
+\PMVC\initPlugIn(['controller' => null], true);
 
 class cli extends \PMVC\PlugIn implements \PMVC\RouterInterface
 {
