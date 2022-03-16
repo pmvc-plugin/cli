@@ -19,7 +19,9 @@ class cli extends PlugIn implements RouterInterface
     {
         $opts = $this->getopt();
         if (empty($opts[1])) {
-            $appsFolder = \PMVC\lastSlash($controller->getAppsFolder());
+            $appsFolder = \PMVC\lastSlash(
+                \PMVC\plug('controller')->getAppsFolder()
+            );
             $pwd = getcwd();
             $start = strpos($pwd, $appsFolder);
             if (0 === $start) {
@@ -39,7 +41,7 @@ class cli extends PlugIn implements RouterInterface
 
     public function onMapRequest()
     {
-        extract(\PMVC\assign(['opts', 'app'], $this->getOptApp())); 
+        extract(\PMVC\assign(['opts', 'app'], $this->getOptApp()));
         $controller = \PMVC\plug('controller');
         $request = $controller->getRequest();
         foreach ($opts as $k => $v) {
