@@ -3,28 +3,21 @@
 namespace PMVC\PlugIn\cli;
 
 use PMVC\NamespaceAdapter;
+use PMVC\PlugIn;
+use PMVC\RouterInterface;
 
 ${_INIT_CONFIG}[_CLASS] = __NAMESPACE__ . '\cli';
 
 \PMVC\l(__DIR__ . '/src/ConsoleColor2');
 \PMVC\initPlugIn(['controller' => null], true);
 
-class cli extends \PMVC\PlugIn implements \PMVC\RouterInterface
+class cli extends PlugIn implements RouterInterface
 {
     private $_color;
 
-    public function onMapRequest()
+    public function getOptApp()
     {
-        $controller = \PMVC\plug('controller');
         $opts = $this->getopt();
-        $request = $controller->getRequest();
-        foreach ($opts as $k => $v) {
-            if (!is_numeric($k)) {
-                $request[$k] = $v;
-            } elseif ($k > 1) {
-                $request[] = $v;
-            }
-        }
         if (empty($opts[1])) {
             $appsFolder = \PMVC\lastSlash($controller->getAppsFolder());
             $pwd = getcwd();
@@ -40,6 +33,21 @@ class cli extends \PMVC\PlugIn implements \PMVC\RouterInterface
             }
         } else {
             $app = explode(':', $opts[1]);
+        }
+        return compact('opts', 'app');
+    }
+
+    public function onMapRequest()
+    {
+        extract(\PMVC\assign(['opts', 'app'], $this->getOptApp())); 
+        $controller = \PMVC\plug('controller');
+        $request = $controller->getRequest();
+        foreach ($opts as $k => $v) {
+            if (!is_numeric($k)) {
+                $request[$k] = $v;
+            } elseif ($k > 1) {
+                $request[] = $v;
+            }
         }
         if (isset($app[0])) {
             $controller->setApp($app[0]);
