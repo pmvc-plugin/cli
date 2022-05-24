@@ -34,7 +34,6 @@ class MyTree
     }
 }
 
-
 /**
  * CLI Render
  *
@@ -77,6 +76,8 @@ class Markdown extends Renderer
             if (!is_array($next)) {
                 if (is_object($next) && !method_exists($next, '__string')) {
                     $content = ': ' . get_class($next);
+                } else if (is_string($next)) {
+                    $content = ': ' . $next;
                 } else {
                     $content = ': ' . var_export($next, true);
                 }
