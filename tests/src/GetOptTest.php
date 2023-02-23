@@ -105,7 +105,7 @@ class GetOptTest extends TestCase
         $this->assertEquals($expected, $actual);
    }
 
-   public function multiProvider()
+   static public function multiProvider()
    {
         return [
            [
