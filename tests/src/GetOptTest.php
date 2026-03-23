@@ -4,6 +4,7 @@ namespace PMVC\PlugIn\cli;
 
 use PMVC;
 use PMVC\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 
 class GetOptTest extends TestCase
@@ -98,6 +99,7 @@ class GetOptTest extends TestCase
    /**
     * @dataProvider multiProvider
     */
+   #[DataProvider('multiProvider')]
    public function testMulti($feed, $expected)
    {
         $p = PMVC\plug($this->_plug);

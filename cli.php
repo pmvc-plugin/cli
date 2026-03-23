@@ -41,7 +41,11 @@ class cli extends PlugIn implements RouterInterface
 
     public function onMapRequest()
     {
-        extract(\PMVC\assign(['opts', 'app'], $this->getOptApp()));
+        $optApp = $this->getOptApp();
+        if (empty($optApp)) {
+            return;
+        }
+        extract(\PMVC\assign(['opts', 'app'], $optApp));
         $controller = \PMVC\plug('controller');
         $request = $controller->getRequest();
         foreach ($opts as $k => $v) {

@@ -9,7 +9,7 @@ jobs:
         type: string
         default: "cli"
     docker:
-      - image: hillliu/pmvc-phpunit:<< parameters.php-version >>
+      - image: allfunc/pmvc-phpunit:<< parameters.php-version >>
     working_directory: /var/www/<< parameters.plugin-name >>
     steps:
       - checkout
@@ -29,7 +29,7 @@ jobs:
           name: PHPUnit
           command: |
             ENABLE_COVERAGE=false
-            if [ "<< parameters.php-version >>" == "8.2" ]; then
+            if [ "<< parameters.php-version >>" == "8.3" ]; then
               if [ "$ENABLE_COVERAGE" == "true" ]; then
                 XDEBUG_MODE=coverage phpunit --coverage-clover clover.xml
                 coveralls --coverage_clover=clover.xml -v -o coveralls-upload.json
@@ -50,4 +50,4 @@ workflows:
       - unittest:
           matrix:
             parameters:
-              php-version: ["8.2", "8.1", "8.0", "5.6"]
+              php-version: ["8.5", "8.3", "7.4", "5.6"]
